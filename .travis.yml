@@ -1,18 +1,26 @@
-language: nodejs
-sudo: required
-services: docker
+language: node_js
+node_js:
+  - 12
+
+services:
+  - docker
 env:
   - DOCKER_COMPOSE_VERSION=1.27.4
-before_install:
-  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
 
 script:
-  - docker-compose build
-  - docker-compose run test
+  - docker --version # print the version for logging
+  - docker build -t simple-reverse-proxy .
+  - docker tag simple-reverse-proxy DOCKER_HUB_ACCOUNT/simple-reverse-proxy:latest
 
-install:
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml build --parallel
+after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml push
+  - docker push DOCKER_HUB_ACCOUNT/simple-reverse-proxy
+
