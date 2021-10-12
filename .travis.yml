@@ -1,4 +1,4 @@
-language: minimal
+language: node_js
 services: docker
 env:
   - DOCKER_COMPOSE_VERSION=1.27.4
