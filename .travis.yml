@@ -4,7 +4,6 @@ node_js:
 
 services:
   - docker
-
 script:
   - docker --version # print the version for docker
   - docker build -t udagram-api-feed ./udagram-api-feed
@@ -15,8 +14,6 @@ script:
   - docker tag udagram-api-user massony875/udagram-api-user:v1.1
   - docker tag udagram-reverseproxy massony875/reverseproxy:v1.1
   - docker tag udagram-frontend massony875/udagram-frontend:v1.1
-
-
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
