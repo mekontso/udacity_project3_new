@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  labels:
+    app: reverse-proxy
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+        - name: reverse-proxy
+          image: massony875/reverseproxy:v1.1.1
+          ports:
+            - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverse-proxy
+  labels:
+    app: reverse-proxy
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app: reverse-proxy
+  type: LoadBalancer
