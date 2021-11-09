@@ -21,22 +21,22 @@ spec:
           image: massony875/udagram-api-user:v1.1.1 # or just image: nodejs
           resources:
             requests:
-              cpu: 100m
-              memory: 100Mi
+              memory: "64Mi"
+              cpu: "250m"
             limits:
-              cpu: 500m
-              memory: 1024Mi
+              memory: "1024Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8080
           env:
             - name: POSTGRES_USERNAME
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: postgress-secret
                   key: POSTGRES_USERNAME
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: postgress-secret
                   key: POSTGRES_PASSWORD
             - name: POSTGRES_HOST

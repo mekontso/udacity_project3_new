@@ -1,5 +1,5 @@
 #Delete pods
-
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all
 #Login
 aws sts get-caller-identity
 #Get clusters
